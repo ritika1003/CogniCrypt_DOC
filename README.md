@@ -1,6 +1,8 @@
 # CogniCrypt_DOC
     
- Master Thesis Topic :    
+ Master Thesis Topic : 
+ 
+        CogniCrypt_DOC
     Transforming API Usage
 Specification to API Documentation
 
