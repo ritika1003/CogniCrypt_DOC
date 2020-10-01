@@ -1,0 +1,10 @@
+/target/
+.classpath
+.project
+.settings/
+.DS_Store
+.idea
+bin/
+*.temp
+*.class
+*.crysl
