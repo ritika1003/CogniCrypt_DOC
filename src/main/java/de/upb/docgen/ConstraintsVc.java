@@ -26,11 +26,12 @@ import com.google.common.collect.Multimap;
 
 import crypto.interfaces.ISLConstraint;
 import crypto.rules.CrySLRule;
+import de.upb.docgen.utils.Utils;
 
 public class ConstraintsVc {
 	
 	PrintWriter out;
-	
+
 	private static char[] getTemplateVC() throws IOException {
 		File file = new File(".\\src\\main\\resources\\Templates\\ConstraintsVcClause");
 		StringBuilder stringBuffer = new StringBuilder();
@@ -71,7 +72,8 @@ public class ConstraintsVc {
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
 		
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
 		
 		String paraConVCMapValStr = null;
 		String paraPosInWordValStr = null;

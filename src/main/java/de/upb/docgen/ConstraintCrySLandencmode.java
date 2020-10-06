@@ -20,11 +20,12 @@ import org.apache.commons.text.StringSubstitutor;
 
 import crypto.interfaces.ISLConstraint;
 import crypto.rules.CrySLRule;
+import de.upb.docgen.utils.Utils;
 
 public class ConstraintCrySLandencmode {
 	
 	static PrintWriter out;	
-	
+
 	private static String getTemplateEncLHS() throws IOException {
 		
 		File file = new File(".\\src\\main\\resources\\Templates\\ConstraintCrySLVCandEncmodeLHS1Clause");
@@ -116,8 +117,8 @@ public class ConstraintCrySLandencmode {
 		String cname = new String(rule.getClassName().replace(".", ","));		
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
-
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
 		
 		List<ISLConstraint>constraintConencmodeList = rule.getConstraints().stream().filter(e-> e.getClass().getSimpleName().toString().contains("CrySLConstraint") && e.toString().contains("andencmode")).collect(Collectors.toList());
 		

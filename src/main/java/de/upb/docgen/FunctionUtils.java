@@ -1,6 +1,7 @@
 /*This class contains the common functions used by other classes*/
 package de.upb.docgen;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +13,10 @@ import crypto.rules.CrySLMethod;
 import crypto.rules.CrySLRule;
 import crypto.rules.StateMachineGraph;
 import crypto.rules.TransitionEdge;
+import de.upb.docgen.utils.Utils;
 
 public class FunctionUtils {
-	
+
 	public static List<String> getEventNames(CrySLRule rule) {
 		List<String> methodNames = new ArrayList<String>();
 		StateMachineGraph graph = rule.getUsagePattern();

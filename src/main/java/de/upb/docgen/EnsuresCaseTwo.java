@@ -28,12 +28,13 @@ import crypto.rules.CrySLPredicate;
 import crypto.rules.CrySLRule;
 import crypto.rules.StateMachineGraph;
 import crypto.rules.TransitionEdge;
+import de.upb.docgen.utils.Utils;
 
 
 public class EnsuresCaseTwo {
 			
 	static PrintWriter out; 		
-	
+
 	private static Map<String,String> getReturnValues(CrySLRule rule) {
 		Map<String, String> retValMap = new LinkedHashMap<>();
 	
@@ -185,8 +186,10 @@ public class EnsuresCaseTwo {
 		String cname = new String(rule.getClassName().replace(".", ","));		
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
 
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
+		
 		String joined = null;
 		List<Entry<String, String>> dataTypes = rule.getObjects();
 		Map<String,String> DTMap = new LinkedHashMap<>();		

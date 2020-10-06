@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.text.StringSubstitutor;
 
 import crypto.rules.CrySLRule;
+import de.upb.docgen.utils.Utils;
 
 public class Order {
 
@@ -32,7 +33,7 @@ public class Order {
 	static Map<String, String> symbolMap = new LinkedHashMap<>();
 	static Map<String, String> objectMap = new LinkedHashMap<>();
 	public static PrintWriter out ;	
-		
+	
 	// retrieve a list of the crysl rule files in the Cryslrules folder
 	private static List<File> getCryslFiles(String folderPath) throws IOException {
 		List<File> fileNames = new ArrayList<>();
@@ -344,14 +345,21 @@ public class Order {
 	public void runOrder(CrySLRule rule, File file) throws IOException{
 			
 		String cname = new String(rule.getClassName().replace(".", ","));		
+		
+		if(cname.contains("Cipher")) {
+			System.out.println();
+		}
+		
 	    List<String> strArray = Arrays.asList(cname.split(","));
 		List<File> fileNames = getCryslFiles(FOLDER_PATH);
 		
 		//for (File file : fileNames) 	
 				
 		String classnamecheck = strArray.get((strArray.size())-1);
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
-							
+
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
+									
 		Map<String, List<String>> fileContent = readCryslFile(file.toString());
 		List<String> objectList = fileContent.get("OBJECTS");		
 				

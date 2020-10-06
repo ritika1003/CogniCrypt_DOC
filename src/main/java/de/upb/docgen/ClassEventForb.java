@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,11 +26,12 @@ import crypto.rules.CrySLForbiddenMethod;
 import crypto.rules.CrySLMethod;
 import crypto.rules.CrySLRule;
 import crypto.rules.TransitionEdge;
+import de.upb.docgen.utils.Constant;
+import de.upb.docgen.utils.Utils;
 
 public class ClassEventForb {
 	
-	public static PrintWriter out ;
-	
+	public static PrintWriter out;	
 	public void getClassName(CrySLRule rule) throws IOException{
 		
 		File file = new File(".\\src\\main\\resources\\Templates\\ClassNameClause"); 
@@ -45,8 +47,8 @@ public class ClassEventForb {
       	String cname = new String(rule.getClassName().replace(".", ","));		
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
-      	
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
+      	String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
 		
 		String cName = rule.getClassName();	
 		Map<String, String> valuesMap = new HashMap<String, String>();
@@ -74,8 +76,9 @@ public class ClassEventForb {
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
       	
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
-		      
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
+		
 		ArrayList<CrySLMethod> methodNames = new ArrayList<CrySLMethod>();
 		ArrayList<CrySLMethod> listWithoutDuplicates = new ArrayList<CrySLMethod>();
 		List<TransitionEdge> graph = rule.getUsagePattern().getEdges();
@@ -123,7 +126,8 @@ public class ClassEventForb {
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
       	
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
 		
 		List<CrySLForbiddenMethod> forbname = rule.getForbiddenMethods().stream().filter(e -> ! e.getSilent()).collect(Collectors.toList());
 		String joinedStr = "";

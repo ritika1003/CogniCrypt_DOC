@@ -30,7 +30,6 @@ public class DocumentGeneratorMain {
 		
 		for(Map.Entry<File, CrySLRule> ruleEntry : rules.entrySet()) {
 			CrySLRule rule = ruleEntry.getValue();		
-			
 			cef.getClassName(rule);
 			cef.getEventNumbers(rule);
 			or.runOrder(rule, ruleEntry.getKey());

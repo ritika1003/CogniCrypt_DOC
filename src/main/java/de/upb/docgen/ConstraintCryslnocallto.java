@@ -25,11 +25,12 @@ import com.google.common.collect.Multimap;
 
 import crypto.interfaces.ISLConstraint;
 import crypto.rules.CrySLRule;
+import de.upb.docgen.utils.Utils;
 
 public class ConstraintCryslnocallto {
 	
 	static PrintWriter out;
-	
+
 	private static char[] getTemplatenocallto() throws IOException {
 			
 			File file = new File(".\\src\\main\\resources\\Templates\\ConsraintCrySLnocalltoClause");
@@ -49,8 +50,8 @@ public class ConstraintCryslnocallto {
 		String cname = new String(rule.getClassName().replace(".", ","));		
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
-				
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));				
 		List<ISLConstraint> constraintConList = rule.getConstraints().stream().filter(e-> e.getClass().getSimpleName().toString().contains("CrySLConstraint")).collect(Collectors.toList());
 		
 		if(constraintConList.size()>0) {

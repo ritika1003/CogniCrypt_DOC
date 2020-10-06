@@ -23,11 +23,11 @@ import crypto.rules.CrySLPredicate;
 import crypto.rules.CrySLRule;
 import crypto.rules.StateMachineGraph;
 import crypto.rules.TransitionEdge;
+import de.upb.docgen.utils.Utils;
 
 public class Negates {
 	
 	static PrintWriter out;	
-	
 	private static String getTemplateNegated() throws IOException {
 		
 		File file = new File(".\\src\\main\\resources\\Templates\\Negation");
@@ -48,8 +48,10 @@ public class Negates {
 		String cname = new String(rule.getClassName().replace(".", ","));		
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
-				
+
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
+						
 		StateMachineGraph smg = rule.getUsagePattern();
 		List<TransitionEdge> edges = smg.getEdges();
 		List<Entry<String, String>> dataTypes = rule.getObjects();

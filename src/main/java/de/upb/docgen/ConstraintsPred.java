@@ -28,11 +28,12 @@ import com.google.common.collect.Multimap;
 
 import crypto.interfaces.ISLConstraint;
 import crypto.rules.CrySLRule;
+import de.upb.docgen.utils.Utils;
 
 public class ConstraintsPred {
 	
 	static PrintWriter out;
-	
+
 	private static char[] getTemplatePredOne() throws IOException {
 		File fileOne = new File(".\\src\\main\\resources\\Templates\\ConstraintPredTypeOne");
 		StringBuilder stringBuffer = new StringBuilder();
@@ -144,7 +145,8 @@ public class ConstraintsPred {
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
 		
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));
 		
 		List<ISLConstraint> constraintPredList = rule.getConstraints().stream().filter(e-> e.getClass().getSimpleName().toString().contains("CrySLPredicate") && !e.toString().contains("!")).collect(Collectors.toList());
 		

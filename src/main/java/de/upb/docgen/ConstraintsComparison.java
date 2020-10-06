@@ -30,11 +30,12 @@ import crypto.interfaces.ISLConstraint;
 import crypto.rules.CrySLRule;
 import de.upb.docgen.crysl.CrySLReader;
 import de.upb.docgen.utils.Constant;
+import de.upb.docgen.utils.Utils;
 
 public class ConstraintsComparison {
 	
 	static PrintWriter out;
-		
+	
 	private static char[] getTemplateCompOne() throws IOException {
 		
 		File fileOne = new File(".\\src\\main\\resources\\Templates\\CompConstraint_lengthgreaterequal");
@@ -166,8 +167,8 @@ public class ConstraintsComparison {
 		String cname = new String(rule.getClassName().replace(".", ","));		
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size())-1);
-		out = new PrintWriter(new FileWriter("C:\\Users\\RITIKA\\Desktop\\Ouput\\" +classnamecheck+ "_doc.txt",true));
-		
+		String path = "./Output/"+classnamecheck+"_doc.txt";
+		out = new PrintWriter(new FileWriter(path,true));		
 		if (constraintCompConList.size()>0) {
 			
 			List<String> subListLHS = new ArrayList<>();
