@@ -5,10 +5,11 @@ import javax.crypto.KeyGenerator;
 
 public class Genkey {
 	
-	public byte[] generateKey() throws NoSuchAlgorithmException {
+	public byte[] generatingKey() throws NoSuchAlgorithmException {
 		
 		KeyGenerator keygen = KeyGenerator.getInstance("AES");
 		keygen.init(128);
-		return generateKey();
+		byte[] key = keygen.generateKey().getEncoded();
+		return key;
 	}
 }
