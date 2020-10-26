@@ -1,7 +1,6 @@
 /*This class contains the common functions used by other classes*/
 package de.upb.docgen;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,10 @@ import crypto.rules.CrySLMethod;
 import crypto.rules.CrySLRule;
 import crypto.rules.StateMachineGraph;
 import crypto.rules.TransitionEdge;
-import de.upb.docgen.utils.Utils;
+
+/**
+ * @author Ritika Singh
+ */
 
 public class FunctionUtils {
 
@@ -21,20 +23,21 @@ public class FunctionUtils {
 		List<String> methodNames = new ArrayList<String>();
 		StateMachineGraph graph = rule.getUsagePattern();
 		List<TransitionEdge> edges = graph.getEdges();
-		
-		for(TransitionEdge edge : edges) {
+
+		for (TransitionEdge edge : edges) {
 			List<CrySLMethod> methods = edge.getLabel();
-			for(CrySLMethod method : methods) {
+			for (CrySLMethod method : methods) {
 				String[] preMTStrArr = method.toString().replace(".", ",").split(",");
-				methodNames.add(preMTStrArr[preMTStrArr.length-1].replace(";", "").replaceAll("\\( ", "\\(").replaceAll(" ", ","));
-			}			
+				methodNames.add(preMTStrArr[preMTStrArr.length - 1].replace(";", "").replaceAll("\\( ", "\\(")
+						.replaceAll(" ", ","));
+			}
 		}
 		return methodNames.stream().distinct().collect(Collectors.toList());
 	}
-	
-	public static Map<String,String> getPosWordMap(CrySLRule rule){
-		
-		Map<String,String> posInWords = new HashMap<>();
+
+	public static Map<String, String> getPosWordMap(CrySLRule rule) {
+
+		Map<String, String> posInWords = new HashMap<>();
 		posInWords.put("1", "first");
 		posInWords.put("2", "second");
 		posInWords.put("3", "third");
@@ -42,11 +45,11 @@ public class FunctionUtils {
 		posInWords.put("5", "fifth");
 		posInWords.put("6", "sixth");
 		posInWords.put("7", "seventh");
-		
+
 		return posInWords;
-	
+
 	}
-		
+
 	public static String getDataType(CrySLRule rule, String var) {
 		ArrayList<TransitionEdge> transitions = new ArrayList<TransitionEdge>(
 				rule.getUsagePattern().getAllTransitions());

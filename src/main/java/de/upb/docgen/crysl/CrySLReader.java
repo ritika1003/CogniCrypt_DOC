@@ -10,8 +10,12 @@ import java.util.Map;
 import crypto.cryslhandler.CrySLModelReader;
 import crypto.rules.CrySLRule;
 
+/**
+ * @author Ritika Singh
+ */
+
 public class CrySLReader {
-	
+
 	public static List<CrySLRule> readRulesFromSourceFilesWithoutFiles(final String folderPath) {
 		return new ArrayList<>(readRulesFromSourceFiles(folderPath).values());
 	}
@@ -21,7 +25,7 @@ public class CrySLReader {
 		File f = null;
 		try {
 			CrySLModelReader cryslmodelreader = new CrySLModelReader();
-			
+
 			Map<File, CrySLRule> rules = new HashMap<>();
 			File[] files = new File(folderPath).listFiles();
 			for (File file : files) {
@@ -30,13 +34,13 @@ public class CrySLReader {
 					rules.put(file, cryslmodelreader.readRule(file));
 				}
 			}
-			//System.out.println(rules);
+			// System.out.println(rules);
 			return rules;
-			
+
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 }

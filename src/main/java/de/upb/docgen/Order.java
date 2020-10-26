@@ -25,6 +25,10 @@ import org.apache.commons.text.StringSubstitutor;
 import crypto.rules.CrySLRule;
 import de.upb.docgen.utils.Utils;
 
+/**
+ * @author Ritika Singh
+ */
+
 public class Order {
 
 	private static final String FOLDER_PATH = ".\\src\\main\\resources\\CrySLRules";
@@ -32,8 +36,8 @@ public class Order {
 	static Map<String, String> processedresultMap = new LinkedHashMap<>();
 	static Map<String, String> symbolMap = new LinkedHashMap<>();
 	static Map<String, String> objectMap = new LinkedHashMap<>();
-	public static PrintWriter out ;	
-	
+	public static PrintWriter out;
+
 	// retrieve a list of the crysl rule files in the Cryslrules folder
 	private static List<File> getCryslFiles(String folderPath) throws IOException {
 		List<File> fileNames = new ArrayList<>();
@@ -60,9 +64,9 @@ public class Order {
 					}
 					return x;
 				}).collect(Collectors.toList());
-	
+
 		for (String line : fileContent) {
-			
+
 			if (clauseNames.contains(line)) {
 				contentCategory = line;
 				cryslFileContentMap.put(contentCategory, new ArrayList<>());
@@ -75,13 +79,12 @@ public class Order {
 		}
 		return cryslFileContentMap;// contains the sections with their details
 	}
-	
 
 	private static Map<String, String> getSymValues() throws IOException {
 		Properties properties = new Properties();
 
 		try {
-			File fileone = new File(".\\src\\main\\resources\\symbol.properties"); 
+			File fileone = new File(".\\src\\main\\resources\\symbol.properties");
 			FileInputStream fileInput = new FileInputStream(fileone);
 			properties.load(fileInput);
 			fileInput.close();
@@ -93,30 +96,29 @@ public class Order {
 				.collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
 		return symbolMap;
 	}
-	
+
 	private static String getTemplateOrder() throws IOException {
-		
+
 		File file = new File(".\\src\\main\\resources\\Templates\\OrderClause");
-		
+
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String strLine = br.readLine();
 		String strD = "";
-		
+
 		while (strLine != null) {
-			strD += strLine+"\n";
-      	    strLine = br.readLine();
+			strD += strLine + "\n";
+			strLine = br.readLine();
 		}
 		br.close();
-		return strD;	
+		return strD;
 	}
-	
-	
+
 	// function to map labels with their corresponding method names
 	private static List<Event> processEvents(List<String> lines) {
 		List<Event> eventList = new ArrayList<>();
 		Map<String, String> methodIdentifiersmap = new LinkedHashMap<>();
-        Map<String, List<String>> labelIdentifiersmap = new LinkedHashMap<>();
-        
+		Map<String, List<String>> labelIdentifiersmap = new LinkedHashMap<>();
+
 		for (String line : lines) {
 			if (!line.contains(":")) {
 				throw new RuntimeException("Unexpected line found: " + line);
@@ -170,80 +172,80 @@ public class Order {
 				String method = methodIdentifiersmap.get(id);
 				List<String> methodLabelList = new ArrayList<>();
 				methodLabelList.add(method);
-						
-				for(String methodLabelStr : methodLabelList) {
+
+				for (String methodLabelStr : methodLabelList) {
 					List<String> extractParamList = new ArrayList<>();
-					  int startIndex = methodLabelStr.indexOf("(");
-					  int endIndex = methodLabelStr.indexOf(")");
-					  String bracketExtractStr = methodLabelStr.substring(startIndex + 1, endIndex);
-					  					  
-					  if(bracketExtractStr.contains(",")){
-						  String[] elements = bracketExtractStr.split(",");
-						  for(int a=0; a<elements.length; a++) {
-							  extractParamList.add(elements[a].replace(" ", ""));
-						  }							  
-					  }else{
-						  extractParamList.add(bracketExtractStr);
-					  }
-					 
-					  for(int y = 0; y<extractParamList.size();y++) {
-						  
-						  int startInd = 0;
-							 int endInd = 0;
-							 String dataTypevalue ="";
-							 
-							 if(y>0) {
-															 
-								 if(!objectMap.containsKey(extractParamList.get(y))) {
-								  }else {
-									  
-									 dataTypevalue = objectMap.get(extractParamList.get(y)).toString();
-									  
-									  Pattern word = Pattern.compile(extractParamList.get(y));
-									  Matcher match = word.matcher(methodLabelStr);
-									  
-									  while (match.find()) {
-									       startInd = match.start();
-										   endInd = match.end()-1;
-										   if(startInd > startIndex) {
-											   if(methodLabelStr.charAt(startInd-1)==' ') {
-												   break;
-											   }
-											 
-										   }									   
-									  } 
-								  }									 								 
-							 }else {
-								 								 
-								 if(!objectMap.containsKey(extractParamList.get(y))) {
-								  }else {
-									  
-									 dataTypevalue = objectMap.get(extractParamList.get(y)).toString();
-									  
-									  Pattern word = Pattern.compile(extractParamList.get(y));
-									  Matcher match = word.matcher(methodLabelStr);
-									  
-									  while (match.find()) {
-									       startInd = match.start();
-										   endInd = match.end()-1;
-										   if(startInd > startIndex) {
-											   break;										 
-										   }		   
-									  } 		 
-								  }							 						 
-							 }	 
-							 
-							  String strDiv = methodLabelStr.substring(startInd,endInd+1);
-							  if(strDiv.equals(extractParamList.get(y))) {
-								  StringBuilder sDB = new StringBuilder(methodLabelStr); 
-								  sDB.replace(startInd, endInd+1, dataTypevalue);
-								  methodLabelStr = sDB.toString();  
-							  }	
-						  
-						  event.addIdentifierAndMethod(id, methodLabelStr);						  
-					  	}		  
-					 }
+					int startIndex = methodLabelStr.indexOf("(");
+					int endIndex = methodLabelStr.indexOf(")");
+					String bracketExtractStr = methodLabelStr.substring(startIndex + 1, endIndex);
+
+					if (bracketExtractStr.contains(",")) {
+						String[] elements = bracketExtractStr.split(",");
+						for (int a = 0; a < elements.length; a++) {
+							extractParamList.add(elements[a].replace(" ", ""));
+						}
+					} else {
+						extractParamList.add(bracketExtractStr);
+					}
+
+					for (int y = 0; y < extractParamList.size(); y++) {
+
+						int startInd = 0;
+						int endInd = 0;
+						String dataTypevalue = "";
+
+						if (y > 0) {
+
+							if (!objectMap.containsKey(extractParamList.get(y))) {
+							} else {
+
+								dataTypevalue = objectMap.get(extractParamList.get(y)).toString();
+
+								Pattern word = Pattern.compile(extractParamList.get(y));
+								Matcher match = word.matcher(methodLabelStr);
+
+								while (match.find()) {
+									startInd = match.start();
+									endInd = match.end() - 1;
+									if (startInd > startIndex) {
+										if (methodLabelStr.charAt(startInd - 1) == ' ') {
+											break;
+										}
+
+									}
+								}
+							}
+						} else {
+
+							if (!objectMap.containsKey(extractParamList.get(y))) {
+							} else {
+
+								dataTypevalue = objectMap.get(extractParamList.get(y)).toString();
+
+								Pattern word = Pattern.compile(extractParamList.get(y));
+								Matcher match = word.matcher(methodLabelStr);
+
+								while (match.find()) {
+									startInd = match.start();
+									endInd = match.end() - 1;
+									if (startInd > startIndex) {
+										break;
+									}
+								}
+							}
+						}
+
+						String strDiv = methodLabelStr.substring(startInd, endInd + 1);
+						if (strDiv.equals(extractParamList.get(y))) {
+							StringBuilder sDB = new StringBuilder(methodLabelStr);
+							sDB.replace(startInd, endInd + 1, dataTypevalue);
+							methodLabelStr = sDB.toString();
+						}
+
+						event.addIdentifierAndMethod(id, methodLabelStr);
+					}
 				}
+			}
 			eventList.add(event);
 
 		});
@@ -251,159 +253,154 @@ public class Order {
 		{
 			methodIdentifiersmap.forEach((key, methodList) -> {
 				Event event = new Event(key);
-				String method = methodIdentifiersmap.get(key);	
+				String method = methodIdentifiersmap.get(key);
 				List<String> methodLabelList = new ArrayList<>();
 				methodLabelList.add(method);
-						
-				for(String methodLabelStr : methodLabelList) {
+
+				for (String methodLabelStr : methodLabelList) {
 					List<String> extractParamList = new ArrayList<>();
-					  int startIndex = methodLabelStr.indexOf("(");
-					  int endIndex = methodLabelStr.indexOf(")");
-					  String bracketExtractStr = methodLabelStr.substring(startIndex + 1, endIndex);
-									 				  
-			 	  if(bracketExtractStr.contains(",")){
-						  String[] elements = bracketExtractStr.split(",");
-						  for(int a=0; a<elements.length; a++) {
-							  extractParamList.add(elements[a].replace(" ", ""));
-						  }							  
-					  }else{
-						  extractParamList.add(bracketExtractStr);
-					  }
-					 
-					 for(int y = 0; y<extractParamList.size();y++) {
-						 
-						 int startInd = 0;
-						 int endInd = 0;
-						 String dataTypevalue ="";
-						 
-						 if(y>0) {
-							 
-							 if(!objectMap.containsKey(extractParamList.get(y))) {
-							  }else {
-								  
-								 dataTypevalue = objectMap.get(extractParamList.get(y)).toString();
-								  
-								  Pattern word = Pattern.compile(extractParamList.get(y));
-								  Matcher match = word.matcher(methodLabelStr);
-								  
-								  while (match.find()) {
-								       startInd = match.start();
-									   endInd = match.end()-1;
-									   if(startInd > startIndex) {
-										   if(methodLabelStr.charAt(startInd-1)==' ') {
-											   break;
-										   } 
-									   }									   
-								  } 
-							  }					 
-							 
-						 }else {
-							 
-							 if(!objectMap.containsKey(extractParamList.get(y))) {
-							  }else {
-								  
-								 dataTypevalue = objectMap.get(extractParamList.get(y)).toString();
-								  
-								  Pattern word = Pattern.compile(extractParamList.get(y));
-								  Matcher match = word.matcher(methodLabelStr);
-								  
-								  while (match.find()) {
-								       startInd = match.start();
-									   endInd = match.end()-1;
-									   if(startInd > startIndex) {
-										   break;										 
-									   }									   
-								  } 		 
-							  }
-							 					 		 						  					  
-						  }
-						 
-						 String strDiv = methodLabelStr.substring(startInd,endInd+1);
-						  if(strDiv.equals(extractParamList.get(y))) {
-							  StringBuilder sDB = new StringBuilder(methodLabelStr); 
-							  sDB.replace(startInd, endInd+1, dataTypevalue);
-							  methodLabelStr = sDB.toString();  
-						  }	
-						 
-						  event.addIdentifierAndMethod(key, methodLabelStr);
-					  	}  
-					 }
+					int startIndex = methodLabelStr.indexOf("(");
+					int endIndex = methodLabelStr.indexOf(")");
+					String bracketExtractStr = methodLabelStr.substring(startIndex + 1, endIndex);
+
+					if (bracketExtractStr.contains(",")) {
+						String[] elements = bracketExtractStr.split(",");
+						for (int a = 0; a < elements.length; a++) {
+							extractParamList.add(elements[a].replace(" ", ""));
+						}
+					} else {
+						extractParamList.add(bracketExtractStr);
+					}
+
+					for (int y = 0; y < extractParamList.size(); y++) {
+
+						int startInd = 0;
+						int endInd = 0;
+						String dataTypevalue = "";
+
+						if (y > 0) {
+
+							if (!objectMap.containsKey(extractParamList.get(y))) {
+							} else {
+
+								dataTypevalue = objectMap.get(extractParamList.get(y)).toString();
+
+								Pattern word = Pattern.compile(extractParamList.get(y));
+								Matcher match = word.matcher(methodLabelStr);
+
+								while (match.find()) {
+									startInd = match.start();
+									endInd = match.end() - 1;
+									if (startInd > startIndex) {
+										if (methodLabelStr.charAt(startInd - 1) == ' ') {
+											break;
+										}
+									}
+								}
+							}
+
+						} else {
+
+							if (!objectMap.containsKey(extractParamList.get(y))) {
+							} else {
+
+								dataTypevalue = objectMap.get(extractParamList.get(y)).toString();
+
+								Pattern word = Pattern.compile(extractParamList.get(y));
+								Matcher match = word.matcher(methodLabelStr);
+
+								while (match.find()) {
+									startInd = match.start();
+									endInd = match.end() - 1;
+									if (startInd > startIndex) {
+										break;
+									}
+								}
+							}
+
+						}
+
+						String strDiv = methodLabelStr.substring(startInd, endInd + 1);
+						if (strDiv.equals(extractParamList.get(y))) {
+							StringBuilder sDB = new StringBuilder(methodLabelStr);
+							sDB.replace(startInd, endInd + 1, dataTypevalue);
+							methodLabelStr = sDB.toString();
+						}
+
+						event.addIdentifierAndMethod(key, methodLabelStr);
+					}
+				}
 				eventList.add(event);
 			});
 		}
-		
+
 		getProcessedMap(eventList);
 		return eventList;
 	}
-		
+
 	private static void getProcessedMap(List<Event> eventList) {
 		eventList.forEach(event -> {
 			processedresultMap.put(event.getEvent(), event.getMethodIdentifierMap());
 		});
 	}
-		
-	public void runOrder(CrySLRule rule, File file) throws IOException{
-			
-		String cname = new String(rule.getClassName().replace(".", ","));		
-		
-		if(cname.contains("Cipher")) {
-			System.out.println();
-		}
-		
-	    List<String> strArray = Arrays.asList(cname.split(","));
-		List<File> fileNames = getCryslFiles(FOLDER_PATH);
-		
-		//for (File file : fileNames) 	
-				
-		String classnamecheck = strArray.get((strArray.size())-1);
 
-		String path = "./Output/"+classnamecheck+"_doc.txt";
-		out = new PrintWriter(new FileWriter(path,true));
-									
+	public void runOrder(CrySLRule rule, File file) throws IOException {
+
+		String cname = new String(rule.getClassName().replace(".", ","));
+		List<String> strArray = Arrays.asList(cname.split(","));
+		List<File> fileNames = getCryslFiles(FOLDER_PATH);
+
+		// for (File file : fileNames)
+
+		String classnamecheck = strArray.get((strArray.size()) - 1);
+
+		String path = "./Output/" + classnamecheck + "_doc.txt";
+		out = new PrintWriter(new FileWriter(path, true));
+
 		Map<String, List<String>> fileContent = readCryslFile(file.toString());
-		List<String> objectList = fileContent.get("OBJECTS");		
-				
-		for(String pair : objectList)                    
-		{
-			String[] entry = pair.split(" ");                  
-			objectMap.put(entry[1], entry[0]); 
+		List<String> objectList = fileContent.get("OBJECTS");
+
+		for (String pair : objectList) {
+			String[] entry = pair.split(" ");
+			objectMap.put(entry[1], entry[0]);
 		}
-		
+
 		List<Event> eventList = processEvents(fileContent.get("EVENTS"));
-		List<String> originalOrder = Arrays.asList(fileContent.get("ORDER").get(0).replaceAll("\\(", "\\( ").split(","));
+		List<String> originalOrder = Arrays
+				.asList(fileContent.get("ORDER").get(0).replaceAll("\\(", "\\( ").split(","));
 		List<String> fl = new ArrayList<String>();
 		List<String> n = new ArrayList<String>();
 		getSymValues();
-						
+
 		for (String orderStr : originalOrder) {
-			
+
 			String[] orderArr = orderStr.split("[\\s,]+|(?<![\\s,])(?![a-zA-Z0-9\\s,])");
-			
+
 			if (orderArr.length > 1 && orderArr[0].isEmpty()) {
-			orderArr = Arrays.copyOfRange(orderArr, 1, orderArr.length);
+				orderArr = Arrays.copyOfRange(orderArr, 1, orderArr.length);
 			}
-						
+
 			int delete;
 			String control = "n";
 			for (int q = 0; q < orderArr.length; q++) {
 				int flag = 0;
-				//control = "n";
+				// control = "n";
 				for (Map.Entry<String, String> entry : symbolMap.entrySet()) {
-					
-					if (entry.getKey().equals(orderArr[q])) {   // symbol keys
-						String symbolSearchstr = orderArr[q].replace(orderArr[q], entry.getValue()); // symbol values 
-						
-						if (fl.size()-1 < 0) {
-						}else {
-							if(control.equals("y")) {
-								control ="n";
-								delete = fl.size()-1;
-								fl.remove(delete); 
+
+					if (entry.getKey().equals(orderArr[q])) { // symbol keys
+						String symbolSearchstr = orderArr[q].replace(orderArr[q], entry.getValue()); // symbol values
+
+						if (fl.size() - 1 < 0) {
+						} else {
+							if (control.equals("y")) {
+								control = "n";
+								delete = fl.size() - 1;
+								fl.remove(delete);
 							}
-						}			
-							
-						fl.add(symbolSearchstr);					
-						flag++;		
+						}
+
+						fl.add(symbolSearchstr);
+						flag++;
 					}
 				}
 				if (flag == 0) {
@@ -413,13 +410,13 @@ public class Order {
 				}
 				flag = 0;
 			}
-		}	
-						
+		}
+
 		for (String ff : fl) {
 			int flag = 0;
 			for (Map.Entry<String, String> en : processedresultMap.entrySet()) {
 				if (ff.equals(en.getKey())) {
-					String ddd = ff.replace(ff, en.getValue());   //method names						
+					String ddd = ff.replace(ff, en.getValue()); // method names
 					n.add(ddd);
 					flag++;
 				}
@@ -428,49 +425,47 @@ public class Order {
 				n.add(ff);
 			}
 			flag = 0;
-		}	
-				
+		}
+
 		List<String> fo = new ArrayList<>();
-		String a= "";
-		if(n.size()>2) {
-			if(n.size()%2==0) {
-			 for(int i = 0; i<=n.size()-2;i+=2) {
-				a=n.get(i)+" "+n.get(i+1);
-				fo.add(a);
-			}
-		  }
-			else {
-				for(int i = 0; i<=n.size()-2;i+=2) {
-					a=n.get(i)+" "+n.get(i+1);
+		String a = "";
+		if (n.size() > 2) {
+			if (n.size() % 2 == 0) {
+				for (int i = 0; i <= n.size() - 2; i += 2) {
+					a = n.get(i) + " " + n.get(i + 1);
 					fo.add(a);
 				}
-				fo.add(n.get(n.size()-1));
+			} else {
+				for (int i = 0; i <= n.size() - 2; i += 2) {
+					a = n.get(i) + " " + n.get(i + 1);
+					fo.add(a);
+				}
+				fo.add(n.get(n.size() - 1));
 			}
-		}
-		else {
-			a=n.get(0)+" "+n.get(1);
+		} else {
+			a = n.get(0) + " " + n.get(1);
 			fo.add(a);
 		}
-				
-		String strTemp = getTemplateOrder();	
-		List<String> lines= Arrays.asList(strTemp.split("\\r?\\n"));
-		String d=lines.get(1);
-		String c=lines.get(0);
-		String b=lines.get(3);
-		String finalresult="";
-		finalresult = c+"\n"+"\n";
-				
-		for(String ftr: fo) {
+
+		String strTemp = getTemplateOrder();
+		List<String> lines = Arrays.asList(strTemp.split("\\r?\\n"));
+		String d = lines.get(1);
+		String c = lines.get(0);
+		String b = lines.get(3);
+		String finalresult = "";
+		finalresult = c + "\n" + "\n";
+
+		for (String ftr : fo) {
 			Map<String, String> valuesMap = new HashMap<String, String>();
 			valuesMap.put("methodName+Card", ftr);
 			StringSubstitutor sub = new StringSubstitutor(valuesMap);
-			String resolvedString = sub.replace(d);	    	
-			finalresult += resolvedString+"\n";
+			String resolvedString = sub.replace(d);
+			finalresult += resolvedString + "\n";
 		}
-		finalresult += "\n"+b+"\n";	
-		out.println(finalresult);		
-				
-		//	}	
+		finalresult += "\n" + b + "\n";
+		out.println(finalresult);
+
+		// }
 		out.close();
 		objectMap.clear();
 		processedresultMap.clear();
@@ -495,7 +490,8 @@ class Event {
 	}
 
 	public String getMethodIdentifierMap() {
-		return methodIdentifierMap.values().toString().replaceAll(",(?=[^\\)]*(?:\\(|$))", " or").replaceFirst("[\\[\\]]", "").replaceFirst("\\]$", "");
+		return methodIdentifierMap.values().toString().replaceAll(",(?=[^\\)]*(?:\\(|$))", " or")
+				.replaceFirst("[\\[\\]]", "").replaceFirst("\\]$", "");
 	}
 
 	@Override

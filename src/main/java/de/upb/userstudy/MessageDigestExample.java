@@ -12,6 +12,6 @@ public class MessageDigestExample {
 		String message = sc.nextLine();
 		sc.close();
 		MessageDigest md = MessageDigest.getInstance("MD5");
-		md.update(message.getBytes());		
-	}	
+		md.update(message.getBytes());
+	}
 }

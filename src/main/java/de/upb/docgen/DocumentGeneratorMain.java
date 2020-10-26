@@ -8,13 +8,17 @@ import crypto.rules.CrySLRule;
 import de.upb.docgen.crysl.CrySLReader;
 import de.upb.docgen.utils.Constant;
 
+/**
+ * @author Ritika Singh
+ */
+
 public class DocumentGeneratorMain {
-	
-	public static void main(String[] args) throws IOException{
-		
+
+	public static void main(String[] args) throws IOException {
+
 		CrySLReader reader = new CrySLReader();
 		Map<File, CrySLRule> rules = reader.readRulesFromSourceFiles(Constant.rulePath);
-		
+
 		ClassEventForb cef = new ClassEventForb();
 		ConstraintsVc valueconstraint = new ConstraintsVc();
 		ConstraintsPred predicateconstraint = new ConstraintsPred();
@@ -27,9 +31,9 @@ public class DocumentGeneratorMain {
 		Ensures en = new Ensures();
 		EnsuresCaseTwo entwo = new EnsuresCaseTwo();
 		Negates neg = new Negates();
-		
-		for(Map.Entry<File, CrySLRule> ruleEntry : rules.entrySet()) {
-			CrySLRule rule = ruleEntry.getValue();		
+
+		for (Map.Entry<File, CrySLRule> ruleEntry : rules.entrySet()) {
+			CrySLRule rule = ruleEntry.getValue();
 			cef.getClassName(rule);
 			cef.getEventNumbers(rule);
 			or.runOrder(rule, ruleEntry.getKey());
@@ -44,7 +48,7 @@ public class DocumentGeneratorMain {
 			en.getEnsuresThis(rule);
 			entwo.getEnsures(rule);
 			neg.getNegates(rule);
-			 					
-		}		
+
+		}
 	}
 }
