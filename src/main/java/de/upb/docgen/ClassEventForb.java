@@ -54,7 +54,7 @@ public class ClassEventForb {
 		List<String> strArray = Arrays.asList(cname.split(","));
 		String classnamecheck = strArray.get((strArray.size()) - 1);
 		String path = "./Output/" + classnamecheck + "_doc.txt";
-		out = new PrintWriter(new FileWriter(path));
+		out = new PrintWriter(new FileWriter(path, true));
 
 		String cName = rule.getClassName();
 		Map<String, String> valuesMap = new HashMap<String, String>();
@@ -83,7 +83,7 @@ public class ClassEventForb {
 		String classnamecheck = strArray.get((strArray.size()) - 1);
 
 		String path = "./Output/" + classnamecheck + "_doc.txt";
-		out = new PrintWriter(new FileWriter(path));
+		out = new PrintWriter(new FileWriter(path, true));
 
 		ArrayList<CrySLMethod> methodNames = new ArrayList<CrySLMethod>();
 		ArrayList<CrySLMethod> listWithoutDuplicates = new ArrayList<CrySLMethod>();
