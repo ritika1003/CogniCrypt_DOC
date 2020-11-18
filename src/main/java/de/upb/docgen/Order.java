@@ -457,7 +457,7 @@ public class Order {
 
 		for (String ftr : fo) {
 			Map<String, String> valuesMap = new HashMap<String, String>();
-			valuesMap.put("methodName+Card", ftr);
+			valuesMap.put("methodName+Cardinality", ftr);
 			StringSubstitutor sub = new StringSubstitutor(valuesMap);
 			String resolvedString = sub.replace(d);
 			finalresult += resolvedString + "\n";
