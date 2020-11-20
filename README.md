@@ -1,6 +1,5 @@
 # CogniCrypt_DOC
     
- Master Thesis Topic : 
  
         CogniCrypt_DOC
     Transforming API Usage
