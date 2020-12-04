@@ -59,7 +59,7 @@ public class EnsuresCaseTwo {
 					secondMethodNameVar = rsList.get((rsList.size()) - 1);
 					retValMap.put(firstReturnTypeVar, secondMethodNameVar);
 				}
-				// break;
+				//break;
 			}
 		}
 		return retValMap;
@@ -205,7 +205,7 @@ public class EnsuresCaseTwo {
 		List<String> methodsNameList = FunctionUtils.getEventNames(rule);
 		Map<String, String> posInWordsMap = FunctionUtils.getPosWordMap(rule);
 		Map<String, String> retTypeMap = getReturnValues(rule);
-
+		
 		StateMachineGraph smg = rule.getUsagePattern();
 		List<TransitionEdge> edges = smg.getEdges();
 
@@ -216,8 +216,7 @@ public class EnsuresCaseTwo {
 		for (CrySLPredicate elementN : predList) {
 
 			String paramStr = elementN.getParameters().get(0).toString();
-
-			if (retTypeMap.containsKey(paramStr)) {
+        	if (retTypeMap.containsKey(paramStr)) {
 
 				String returnValMethod = retTypeMap.get(paramStr);
 
@@ -234,7 +233,7 @@ public class EnsuresCaseTwo {
 					for (TransitionEdge edge : edges) {
 
 						if (conPred.getConditionalMethods().contains(edge.to()) && !edge.to().equals(edge.from())) {
-
+						
 							List<String> predmethodNames = new ArrayList<String>();
 							List<String> finalpredmethodNamesList = new ArrayList<>();
 							List<CrySLMethod> methods = edge.getLabel();
@@ -288,7 +287,8 @@ public class EnsuresCaseTwo {
 								}
 
 								finalpredmethodNamesList.add(methodlistStr);
-								joined = String.join(", ", finalpredmethodNamesList);
+								joined = String.join(" or ", finalpredmethodNamesList);
+								
 							}
 
 							if (verbOrNounList.size() == 1) {
@@ -318,7 +318,6 @@ public class EnsuresCaseTwo {
 								StringSubstitutor sub = new StringSubstitutor(valuesMap);
 								String resolvedString = sub.replace(strRetTwo);
 								out.println(resolvedString);
-
 							}
 							break;
 						}
@@ -349,7 +348,6 @@ public class EnsuresCaseTwo {
 						StringSubstitutor sub = new StringSubstitutor(valuesMap);
 						String resolvedString = sub.replace(strRetFour);
 						out.println(resolvedString);
-
 					}
 				}
 			}
@@ -515,7 +513,6 @@ public class EnsuresCaseTwo {
 								verb = verbOrNounList.get(0);
 								noun = verbOrNounList.subList(1, verbOrNounList.size());
 								String nouns = String.join(" ", noun);
-
 								String strTwo = getTemplateTwo();
 								Map<String, String> valuesMap = new HashMap<String, String>();
 								valuesMap.put("paraPosInWordValStr", paraPosInWordValStr);
@@ -525,8 +522,7 @@ public class EnsuresCaseTwo {
 								valuesMap.put("joined", joined);
 								StringSubstitutor sub = new StringSubstitutor(valuesMap);
 								String resolvedString = sub.replace(strTwo);
-								out.println(resolvedString);
-
+							    out.println(resolvedString);
 							}
 							break;
 						}
@@ -559,11 +555,11 @@ public class EnsuresCaseTwo {
 						StringSubstitutor sub = new StringSubstitutor(valuesMap);
 						String resolvedString = sub.replace(strFour);
 						out.println(resolvedString);
-
+						
 					}
 				}
-			}
-			out.close();
+			}			
 		}
+		out.close();
 	}
 }

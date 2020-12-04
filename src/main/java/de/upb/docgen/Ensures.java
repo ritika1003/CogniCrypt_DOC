@@ -165,7 +165,8 @@ public class Ensures {
 								}
 
 								finalpredmethodThisNamesList.add(methodlistStr);
-								joined = String.join(", ", finalpredmethodThisNamesList);
+								joined = String.join(" or ", finalpredmethodThisNamesList);
+								//System.out.println(joined);
 							}
 
 							List<String> msplit = Arrays.asList(joined.split("\\("));

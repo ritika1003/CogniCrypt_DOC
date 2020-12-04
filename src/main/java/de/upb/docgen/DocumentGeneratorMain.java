@@ -44,7 +44,7 @@ public class DocumentGeneratorMain {
 			nocall.getnoCalltoConstraint(rule);
 			instance.getInstanceof(rule);
 			enc.getConCryslandenc(rule);
-			cef.getForbiddenMethods(rule);
+			cef.getForbiddenMethods(rule); 
 			en.getEnsuresThis(rule);
 			entwo.getEnsures(rule);
 			neg.getNegates(rule);
